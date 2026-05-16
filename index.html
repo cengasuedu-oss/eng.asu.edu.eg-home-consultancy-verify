@@ -1114,66 +1114,41 @@ body {
   <main class="main-container">
         <div class="card">
     <div class="card-header">Request Information</div>
-    <table class="info-table">
-        <tr>
-            <td class="label">Unit</td>
-            <td class="value">Highway Engineering Consultancy Unit</td>
-        </tr>
-        <tr>
-            <td class="label">Client</td>
-            <td class="value">شركة الرحاب للمقاولات العمومية (وسام محمد احمد طايل وشركاه)</td>
-        </tr>
-        <tr>
-            <td class="label">QR Code</td>
-            <td class="value">817f1661</td>
-        </tr>
-        <tr>
-            <td class="label">Submission Date</td>
-            <td class="value">2026-3-2 12:10:30</td>
-        </tr>
-        <tr>
-            <td class="label">Description</td>
-            <td class="value">مشروع اعمال صيانة بعض الطرق والأرصفة بالأحياء والطرق الرئيسية (غرب طريق الروبيكي) بالمدينة تقرير 98,100,101,104  مارس 2026<br>مشروع اعمال تطوير الطريق الرئيسي من ميدان الحرية حتي الطريق الروبيكي مرورا بمحطة الاتوبيس (محور سعد زغلول) تقرير 132,65,122 مارس 2026
-</td>
-        </tr>
-        <tr>
-            <td class="label">Approval Date</td>
-            <td class="value">2026-3-15</td>
-        </tr>
-        <tr>
+   <table class="info-table">
+            <tr><td class="label">Unit</td><td class="value" id="unit-val">---</td></tr>
+            <tr><td class="label">Client</td><td class="value" id="client-val">---</td></tr>
+            <tr><td class="label">QR Code</td><td class="value" id="qr-val">---</td></tr>
+            <tr><td class="label">Submission Date</td><td class="value" id="sub-date-val">---</td></tr>
+            <tr><td class="label">Description</td><td class="value" id="desc-val">---</td></tr>
+            <tr><td class="label">Approval Date</td><td class="value" id="app-date-val">---</td></tr>
             <tr>
-      <tr>
-    <td class="label">Status</td>
-    <td class="value">
-        <span id="status-val" class="status-approved">Approved</span>
-    </td>
-</tr>
+            <td class="label">Status</td>
+                <td class="value">
+                    <span id="status-val" class="status-approved">---</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Report</td>
+                <td class="value">
+                    <span id="view-label" class="view-link" 
+                          style="color: #212529; cursor: pointer; text-decoration: none; font-weight: 500;"
+                          onclick="handleViewClick()">
+                          View
+                    </span>
 
-<tr>
-    <td class="label">Report</td>
-    <td class="value">
-        <span id="view-label" class="view-link" 
-              style="color: #212529; cursor: pointer; text-decoration: none; font-weight: 500;"
-              onclick="this.style.color='#fd7e14'; document.getElementById('pass-wrapper').style.display='inline-flex';">
-              View
-        </span>
-
-        <div id="pass-wrapper" style="display:none; align-items: center; margin-left: 10px;">
-            <input type="password" id="reportPass" placeholder="Pass" style="width: 80px; padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
-            
-            <button type="button" 
-                    style="margin-left:5px; padding: 4px 10px; cursor: pointer; background: #f1f3f5; border: 1px solid #ccc; border-radius: 4px;"
-                    onclick="var p = document.getElementById('reportPass').value; 
-                             if(p === '12123212'){ window.open('./assets/old_report.pdf', '_blank'); } 
-                             else if(p === '14518423'){ window.open('./assets/new_report.pdf', '_blank'); } 
-                             else { alert('الرقم السري غير صحيح يا هندسة!'); }">
-                Submit
-            </button>
-        </div>
-    </td>
-</tr>
- </table>
-</div>
+                    <div id="pass-wrapper" style="display:none; align-items: center; margin-left: 10px;">
+                        <input type="password" id="reportPass" placeholder="Pass" style="width: 80px; padding: 4px; border: 1px solid #ccc; border-radius: 4px;">
+                        
+                        <button type="button" 
+                                style="margin-left:5px; padding: 4px 10px; cursor: pointer; background: #f1f3f5; border: 1px solid #ccc; border-radius: 4px;"
+                                onclick="handleCheckPassword()">
+                            Submit
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
     </main>
 
     <footer>
@@ -1266,106 +1241,69 @@ body {
   </div>
 </div>
 <script>
-/* ================= Accessibility ================= */
-
-function toggleAccessibility(){
-  document.getElementById("accessibilityPanel").classList.toggle("active");
-}
-
-function setFont(scale){
-  document.documentElement.style.fontSize = scale + "em";
-}
-
-function setContrast(level){
-  document.body.classList.remove("medium-contrast","high-contrast","very-high-contrast");
-
-  if(level==="medium") document.body.classList.add("medium-contrast");
-  if(level==="high") document.body.classList.add("high-contrast");
-  if(level==="very-high") document.body.classList.add("very-high-contrast");
-}
-
-function resetAccessibility(){
-  document.documentElement.style.fontSize="";
-  document.body.classList.remove("medium-contrast","high-contrast","very-high-contrast");
-}
-</script>
-</body>
-</html>
-
-
-<script>
 document.addEventListener("DOMContentLoaded", function () {
-  const projectData = {
-    unit:"Highway Engineering Consultancy Unit",
-    client:"(شركة الرحاب للمقاولات العمومية (وسام محمد احمد طايل وشركاه",
-    qrCode:"722615b13",
-    submissionDate:"2026-1-28 10:22:31",
-    description:"مشروع اعمال صيانة بعض الطرق والارصفه بالاحياء والطرق الرئيسية غرب طريق الروبيكي",
-    approvalDate:"2026-2-03",
-    status:"Approved"
-  };
+    // 1. الحصول على الـ ID من الرابط (مثال: ?id=722615b13)
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('id');
 
-  document.getElementById('unit-val').innerText = projectData.unit;
-  document.getElementById('client-val').innerText = projectData.client;
-  document.getElementById('qr-val').innerText = projectData.qrCode;
-  document.getElementById('sub-date-val').innerText = projectData.submissionDate;
-  document.getElementById('desc-val').innerText = projectData.description;
-  document.getElementById('app-date-val').innerText = projectData.approvalDate;
-  document.getElementById('status-val').innerText = projectData.status;
+    // --- تعديل: لو مفيش ID في الرابط، ابعته لصفحة اليد (404) ---
+    if (!projectId) {
+        window.location.href = "https://eng.asu.edu.eg/error-page";
+        return;
+    }
+
+    // 2. جلب البيانات من ملف data.json المرفوع على نفس المسار
+    fetch('data.json')
+        .then(response => {
+            if (!response.ok) throw new Error("لم يتم العثور على ملف البيانات");
+            return response.json();
+        })
+        .then(allData => {
+            const project = allData[projectId];
+
+            if (project) {
+                // 3. توزيع البيانات على الخانات في الجدول
+                document.getElementById('unit-val').innerText = project.unit;
+                document.getElementById('client-val').innerText = project.client;
+                document.getElementById('qr-val').innerText = projectId;
+                document.getElementById('sub-date-val').innerText = project.submissionDate;
+                document.getElementById('desc-val').innerHTML = project.description;
+                document.getElementById('app-date-val').innerText = project.approvalDate;
+                document.getElementById('status-val').innerText = project.status;
+
+                // تخزين ملفات هذا المشروع في ذاكرة الصفحة مؤقتاً
+                window.currentProjectFiles = project.passwords;
+            } else {
+                // --- تعديل: لو الـ ID مكتوب غلط ومش موجود في الملف، ابعته لصفحة اليد (404) ---
+                window.location.href = "https://eng.asu.edu.eg/error-page";
+            }
+        })
+        .catch(error => console.error("خطأ في جلب البيانات:", error));
 });
 
-// دالة إظهار المربع
+// دالة إظهار مربع كلمة السر
 function handleViewClick() {
     var wrapper = document.getElementById('pass-wrapper');
-    wrapper.style.display = 'inline-flex';
-    var label = document.getElementById('view-label');
-    label.style.color = '#fd7e14'; 
-    label.style.fontWeight = 'bold';
+    if (wrapper) {
+        wrapper.style.display = 'inline-flex';
+        var label = document.getElementById('view-label');
+        label.style.color = '#fd7e14'; 
+        label.style.fontWeight = 'bold';
+    }
 }
 
-// دالة التحقق من الباسوردين (القديم والجديد)
+// دالة التحقق من كلمة السر (ديناميكية لكل مشروع)
 function handleCheckPassword() {
     var passInput = document.getElementById('reportPass').value;
-    
-    if (passInput === "14518423") {
-        // يفتح الملف القديم
-        window.open("./assets/old_report.pdf", '_blank');
-    } else if (passInput === "12123212") {
-        // يفتح الملف الجديد
-        window.open("./assets/new_report.pdf", '_blank');
+    const files = window.currentProjectFiles; 
+
+    if (files && files[passInput]) {
+        window.open(files[passInput], '_blank');
     } else {
         alert('كلمة السر غير صحيحة يا هندسة!');
     }
 }
 </script>
-<script>
-    // 1. منع الضغط كليك يمين
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        alert("عذراً، لا يمكن نسخ المحتوى حفاظاً على خصوصية البيانات.");
-    });
-
-    // 2. منع اختصارات الكيبورد (النسخ، القص، رؤية الكود)
-    document.onkeydown = function(e) {
-        // منع F12
-        if (e.keyCode == 123) {
-            return false;
-        }
-        // منع Ctrl+U (رؤية السورس)
-        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-            return false;
-        }
-        // منع Ctrl+C (النسخ)
-        if (e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) {
-            return false;
-        }
-        // منع Ctrl+Shift+I (فتح أدوات المطورين)
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-            return false;
-        }
-    };
-</script>
-
 <style>
     /* 3. منع تحديد النص عن طريق الـ CSS */
     body {
